@@ -5,7 +5,9 @@
   {% else %}
   
   <form action="" method="POST">
-    {% csrf_token %} {{ form|crispy }}
+    {% csrf_token %}
+    {{form.media}}
+    {{ form|crispy }}
     <button
       class="w-full bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded-md"
       type="submit"
