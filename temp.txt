@@ -30,7 +30,7 @@ todo:
 
     add the description editor from tinymce
 
-    make the repo
+    done: make the repo
 
     done: extend the abstractbaseuser
 
