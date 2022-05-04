@@ -48,25 +48,25 @@ def signup(request):
 
 
 
-# def login(request):
-#     if request.method == "POST":
-#         email = request.POST.get("email")
-#         password = request.POST.get("password")
+def login(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        password = request.POST.get("password")
 
-#         user = auth.authenticate(email = email, password = password)
-#         if user:
-#             auth.login(request, user)
-#             return redirect("blog:list")
-#         else:
-#             print(user)
-#             print("invalid credentials")
-#             messages.info(request, user)
-#             return redirect('login')
+        user = auth.authenticate(email = email, password = password)
+        if user:
+            auth.login(request, user)
+            return redirect("blog:list")
+        else:
+            print(user)
+            print("invalid credentials")
+            messages.info(request, user)
+            return redirect('login')
 
 
-#     else:
-#         form = LoginForm()
-#         return render(request, "registration/login.html", {"form":form})
+    else:
+        form = LoginForm()
+        return render(request, "registration/login.html", {"form":form})
 
 
 def logout(request):

@@ -17,7 +17,7 @@ urlpatterns = [
 
     
     # authentication urls
-    path('login/', LoginView.as_view(),name = 'login'),
+    path('login/', u_views.login,name = 'login'),
     path('logout/', u_views.logout,name = 'logout'),
     path('signup/', u_views.signup,name = 'signup'),
     

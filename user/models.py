@@ -33,7 +33,7 @@ class CustomUserManager(BaseUserManager):
     def create_user(self, email, name, password, **other_fields):
         # since email is required
         if not email:
-            raise ValueError(_('You must provide an email address'))
+            raise ValueError('You must provide an email address')
         print(self, email, name, password, other_fields)
 
         other_fields.setdefault('is_staff', False)
