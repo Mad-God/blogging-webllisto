@@ -28,11 +28,9 @@ todo:
 
     create a categories model
 
-    add the description editor from tinymce
+    done: add the description editor from tinymce
 
     done: make the repo
 
     done: extend the abstractbaseuser
-
-
 

@@ -21,7 +21,9 @@ def blog_create(request):
 
         if form.is_valid():
             # print(request.user.email, request.user.id)
-            form.save(user = request.user)
+            bl = form.save()
+            bl.author = request.user
+            bl.save()
             # print(form.cleaned_data)
             # title = form.cleaned_data['title']
             # body = form.cleaned_data['body']
@@ -62,6 +64,7 @@ def blog_update(request, pk):
 
         if form.is_valid():
             form.save()
+             
 
             return redirect("blog:list")
 

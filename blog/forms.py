@@ -1,5 +1,5 @@
 from django import forms
-from .models import Blog
+from .models import Blog, Category
 from user.models import User
 from datetime import datetime
 # from tinymce.widgets import TinyMCE
@@ -13,31 +13,30 @@ class BlogCreationForm(forms.ModelForm):
 
     class Meta:
         model = Blog
-        fields = ("title", 'body')
+        fields = ("title", 'body', 'category')
 
     
     def save(self, commit=True, **kwargs):
 
-        # print(kwargs)/
         m = super(BlogCreationForm, self).save(commit = False)
-        # do custom stuff
 
-        # print(type(kwargs["user"]))
-        # print(dir(self))
-        # print(self.cleaned_data["title"])
-        # self.cleaned_data["user"] = User.objects.get(id = kwargs["user"])
-        print(self)
-        print(m)
-        print(type(m))
-        print(dir(m))
-        m.last_updated = datetime.now()
+        m.last_updated = datetime.now() 
         if "user" in kwargs:
             user = kwargs["user"]
             m.author = user
             m.author_id = user.id
 
 
+    #     print(m.category)
+        m.category.set(self.cleaned_data["category"])
         if commit:
             m.save()
+    #     print(m.get_all_data())
         return m
+    
+
+    def __init__(self, *args, **kwargs):
+        super(BlogCreationForm, self).__init__(*args, **kwargs)
+        self.fields['category'].widget = forms.CheckboxSelectMultiple()
+        self.fields['category'].queryset = Category.objects.all()
 
