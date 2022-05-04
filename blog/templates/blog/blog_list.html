@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% load tailwind_filters %} {% block content %}
+<div class="max-w-lg mx-auto flex">
+    {% for blog in blogs %}
+    <div class = "container px-5 py-24 mx-auto border border-sky-500">
+        <a href = "{% url 'blog:update' pk=blog.id %}">
+            Title: <strong>{{blog.title}}</strong><br> by author: <strong>{{blog.author}}</strong>
+        </a>
+        <br>
+        <br>
+        <text>{{blog.body}}</text>
+        <br>
+        <br>
+        <br>
+        
+        created_on: <strong>{{blog.created_on}}</strong>
+        {% if blog.last_updated %}
+        <br>
+        <i>edited</i>: <strong>{{blog.last_updated}}</strong>
+        
+        {% else %}
+        {% endif %}
+        <br>
+        {% if request.user == blog.author %}
+        <br>
+        <br>
+        <a href = "{% url 'blog:update' pk=blog.id %}">
+            <strong>Update</strong>
+        </a>
+        
+        {% else %}
+        {% endif %}
+
+    </div>
+    <br>
+    <br>
+    <br>
+
+    
+    {% endfor %}
+
+</div>
+{% endblock %}

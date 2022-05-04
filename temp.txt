@@ -1,0 +1,38 @@
+multiple images, files in description,
+search functionality, categories for blogs,
+blog deletion on category deletion, super author, apply for deletion to super author,
+subscription plan on model, test cases using pytest, 
+
+overwrite the user manager so it doesn't ask for username, 
+
+slug field in models, tinymce and other plugin, 
+
+
+
+------------ done 3 may ---------
+
+
+    form save overwrite for blog's author,
+    custom login, logout views
+    verification mail to user,
+    blog update view,
+    blog model update for last edited,
+    overwrite the user manager so it doesn't ask for username,
+
+
+
+------------- done 4 may ------------
+
+todo:
+    mail being sent from signal for each login of user,
+
+    create a categories model
+
+    add the description editor from tinymce
+
+    make the repo
+
+    done: extend the abstractbaseuser
+
+
+
