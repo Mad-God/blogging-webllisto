@@ -138,6 +138,7 @@ def post_user_created_signal(sender, instance, created, **kwargs):
             recipient_list = ['stmsng2001@gmail.com'],
             fail_silently=False,
             )
+        
 
     else:
         if instance.verified:

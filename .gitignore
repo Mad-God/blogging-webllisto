@@ -1,3 +1,7 @@
+/blog/migrations/
+/user/migrations/
+/blog/__pycache__/
+/user/__pycache__/
 /blog/migrations
 /user/migrations
 /blog/__pycache__

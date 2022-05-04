@@ -24,9 +24,11 @@ slug field in models, tinymce and other plugin,
 ------------- done 4 may ------------
 
 todo:
-    mail being sent from signal for each login of user,
+    mail being sent from signal for each login of user
 
-    create a categories model
+    done: create a categories model
+    issue: have to use set() on the category field to set categories, 
+        instead of automatically saving on the model through form.
 
     done: add the description editor from tinymce
 

@@ -24,14 +24,14 @@ class BlogCreationForm(forms.ModelForm):
         if "user" in kwargs:
             user = kwargs["user"]
             m.author = user
-            m.author_id = user.id
+            # m.author_id = user.id
 
 
     #     print(m.category)
-        m.category.set(self.cleaned_data["category"])
         if commit:
             m.save()
     #     print(m.get_all_data())
+        m.category.set(self.cleaned_data["category"])
         return m
     
 

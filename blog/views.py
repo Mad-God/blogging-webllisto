@@ -21,9 +21,9 @@ def blog_create(request):
 
         if form.is_valid():
             # print(request.user.email, request.user.id)
-            bl = form.save()
-            bl.author = request.user
-            bl.save()
+            bl = form.save(user = request.user)
+            # bl.author = request.user
+            # bl.save()
             # print(form.cleaned_data)
             # title = form.cleaned_data['title']
             # body = form.cleaned_data['body']
