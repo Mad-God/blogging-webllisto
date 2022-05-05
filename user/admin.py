@@ -17,9 +17,9 @@ class UserAdminConf(admin.ModelAdmin):
             # using the python inbuilt backend
                 # send_mail(
                 #     "verification for author user", # message title
-                #     f"please verify the user {instance.id} as author",# message
-                #     "stmsng2001@gmail.com",# message mail
-                #     ["stmsng2001@gmail.com"],# message recipients
+                #     f"please verify the user {instance.id} as author", # message
+                #     "stmsng2001@gmail.com", # message mail
+                #     ["stmsng2001@gmail.com"], # message recipients
                 # )
             
             print("Notify the author about the verification")

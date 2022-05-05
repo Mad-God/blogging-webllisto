@@ -11,4 +11,5 @@ urlpatterns = [
     path('create', blog_create,name = 'create'),
     path('update/<int:pk>', blog_update,name = 'update'),
     path('list', blog_list,name = 'list'),
+    path('category/<int:cat>', blog_by_category,name = 'category-blogs'),
 ]

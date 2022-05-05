@@ -23,7 +23,6 @@ slug field in models, tinymce and other plugin,
 
 ------------- done 4 may ------------
 
-todo:
     mail being sent from signal for each login of user
 
     done: create a categories model
@@ -37,4 +36,13 @@ todo:
     done: extend the abstractbaseuser
 
     testing upstream setting on repo
+
+
+------------- 5 may -----------
+todo:
+    
+    done: revert mail thorugh ModelAdmin
+
+    category filter on model
+
 

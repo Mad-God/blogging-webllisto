@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, reverse
 
 from .forms import BlogCreationForm
-from .models import Blog
+from .models import Blog, Category
 
 
 # Create your views here.
@@ -82,5 +82,14 @@ def blog_update(request, pk):
 def blog_list(request):
     blogs = Blog.objects.all()
     print(blogs)
+    context = {"blogs":blogs}
+    return render(request, "blog/blog_list.html", context)
+
+
+def blog_by_category(request, cat = None):
+    cat = Category.objects.get(id = cat)
+    blogs = Blog.objects.category(cat)
+    # blogs = Blog.objects.all()
+    # print(blogs)
     context = {"blogs":blogs}
     return render(request, "blog/blog_list.html", context)
