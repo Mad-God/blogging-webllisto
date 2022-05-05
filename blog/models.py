@@ -39,7 +39,7 @@ class PostQuerySet(models.QuerySet):
 
         print("asdasdasdasd", qs)
         qsf = self.filter(id__in = qs)
-        breakpoint()
+        # breakpoint()
         return qsf
         # return self.annotate(cats = F('category')).filter(cats__icontains = cat.name)
 # from blog.models import Blog, Category

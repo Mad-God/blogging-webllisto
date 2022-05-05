@@ -80,16 +80,49 @@ def blog_update(request, pk):
 
 
 def blog_list(request):
+
+    
+    if request.GET.get("q"):
+        # print("\n\n\n\n",self.request.GET.get("q"), "get")
+        # queryset = queryset.filter(name__icontains = self.request.GET.get("q"))
+        # q2 = Product.objects.filter(index__icontains = self.request.GET.get("q"), shop__pk = self.kwargs['pk'])
+        # print(q2)
+        # print("final qs: ", queryset)
+        # queryset = queryset.union(q2)
+        blogs = Blog.objects.filter(title__icontains = request.GET.get("q"))
+        print(blogs)
+        context = {"blogs":blogs}
+        context["categories"] = Category.objects.all()
+        return render(request, "blog/blog_list.html", context)
+
+
     blogs = Blog.objects.all()
     print(blogs)
     context = {"blogs":blogs}
+    context["categories"] = Category.objects.all()
     return render(request, "blog/blog_list.html", context)
 
 
 def blog_by_category(request, cat = None):
+
+    if request.GET.get("q"):
+        # print("\n\n\n\n",self.request.GET.get("q"), "get")
+        # queryset = queryset.filter(name__icontains = self.request.GET.get("q"))
+        # q2 = Product.objects.filter(index__icontains = self.request.GET.get("q"), shop__pk = self.kwargs['pk'])
+        # print(q2)
+        # print("final qs: ", queryset)
+        # queryset = queryset.union(q2)
+        blogs = Blog.objects.filter(title__icontains = request.GET.get("q"))
+        print(blogs)
+        context = {"blogs":blogs}
+        context["categories"] = Category.objects.all()
+        return render(request, "blog/blog_list.html", context)
+
     cat = Category.objects.get(id = cat)
     blogs = Blog.objects.category(cat)
     # blogs = Blog.objects.all()
     # print(blogs)
     context = {"blogs":blogs}
+    context["categories"] = Category.objects.all()
+    context["cat_label"] = cat.name
     return render(request, "blog/blog_list.html", context)

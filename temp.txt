@@ -43,6 +43,8 @@ todo:
     
     done: revert mail thorugh ModelAdmin
 
-    category filter on model
+    done: category filter on model
+
+    done: search blogs on title
 
 
