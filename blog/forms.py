@@ -27,7 +27,7 @@ class BlogCreationForm(forms.ModelForm):
             # m.author_id = user.id
 
 
-    #     print(m.category)
+    #   print(m.category)
         if commit:
             m.save()
     #     print(m.get_all_data())

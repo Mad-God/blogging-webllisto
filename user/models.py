@@ -1,9 +1,11 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.shortcuts import redirect, reverse
 from django.db.models.signals import post_save, pre_save, post_delete, pre_delete
 from django.core.mail import send_mail
 from .managers import UserManager
+
 
 
 
@@ -38,7 +40,7 @@ class CustomUserManager(BaseUserManager):
 
         other_fields.setdefault('is_staff', False)
         other_fields.setdefault('is_superuser', False)
-        other_fields.setdefault('is_active', True)
+        other_fields.setdefault('is_active', True) 
         other_fields.setdefault('verified', False)
         other_fields.setdefault('author', False)
 
@@ -102,7 +104,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     verified = models.BooleanField(default = False)
     author = models.BooleanField(default = False)
     description = models.TextField(max_length=200, blank = True, null = True)
+    created = models.DateTimeField(auto_now_add= True)
+    updated = models.DateTimeField(auto_now= True)
 
+# 'created': datetime.datetime(2022, 5, 5, 6, 14, 35, 706591, tzinfo=<UTC>), 'updated': datetime.datetime(2022, 5, 5, 
+# 6, 14, 35, 741586, tzinfo=<UTC>),
   
 
     objects = CustomUserManager()
@@ -112,11 +118,25 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
 
+    def get_all_data(self):
+        return str(self.email) + " " +str(self.author) + " " +str(self.verified) + " " +str(self.updated)
+
+
+    def save(self, **kwargs):
+        # breakpoint()
+        m = super(User, self).save()
+
+        # m.last_updated = datetime.now() 
+        # if "user" in kwargs:
+        #     user = kwargs["user"]
+        #     m.author = user
+        #     # m.author_id = user.id
 
 
 
 
 def post_user_created_signal(sender, instance, created, **kwargs):
+    # breakpoint()
     print(instance, created)
     if created:
         if instance.author:
@@ -136,28 +156,6 @@ def post_user_created_signal(sender, instance, created, **kwargs):
             ''',
             from_email = 'satansin2001@gmail.com',
             recipient_list = ['stmsng2001@gmail.com'],
-            fail_silently=False,
-            )
-        
-
-    else:
-        if instance.verified:
-            print("mail was sent from the signal. to the user")
-            # send_mail(
-            #     "verification for author user", # message title
-            #     f"please verify the user {instance.id} as author",# message
-            #     "stmsng2001@gmail.com",# message mail
-            #     ["stmsng2001@gmail.com"],# message recipients
-            # )
-            
-            print("Notify the author about the verification")
-            mail_result = send_mail(
-            subject = 'You have been verified',
-            message = f'''you have been verified as an author, go to the following link to create blogs:
-                http://127.0.0.1:9000/blog/create/
-            ''',
-            from_email = 'satansin2001@gmail.com',
-            recipient_list = [instance.email],
             fail_silently=False,
             )
 

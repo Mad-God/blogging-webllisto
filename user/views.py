@@ -52,9 +52,10 @@ def login(request):
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
-
+        user = None
         user = auth.authenticate(email = email, password = password)
         if user:
+
             auth.login(request, user)
             return redirect("blog:list")
         else:
