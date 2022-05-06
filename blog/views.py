@@ -17,11 +17,11 @@ def blog_create(request):
     
     
     if request.method == 'POST':
-        form = BlogCreationForm(request.POST)
+        form = BlogCreationForm(request.POST, user = request.user)
 
         if form.is_valid():
             # print(request.user.email, request.user.id)
-            bl = form.save(user = request.user)
+            bl = form.save()
             # bl.author = request.user
             # bl.save()
             # print(form.cleaned_data)
@@ -42,7 +42,7 @@ def blog_create(request):
             print(form.errors)
             print('\n\nForm Invalid!!!')
 
-    form = BlogCreationForm()
+    form = BlogCreationForm(user = request.user)
     context = {"form": form, "msg":msg}
     return render(request, "blog/blog_create.html", context)
 

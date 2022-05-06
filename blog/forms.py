@@ -16,27 +16,35 @@ class BlogCreationForm(forms.ModelForm):
         fields = ("title", 'body', 'category')
 
     
-    def save(self, commit=True, **kwargs):
+    # def save(self, commit=True, **kwargs):
+    #     m = super(BlogCreationForm, self).save(commit = False)
 
-        m = super(BlogCreationForm, self).save(commit = False)
-
-        m.last_updated = datetime.now() 
-        if "user" in kwargs:
-            user = kwargs["user"]
-            m.author = user
-            # m.author_id = user.id
+    #     m.last_updated = datetime.now() 
+    #     if "user" in kwargs:
+    #         user = kwargs["user"]
+    #         m.author = user
+    #         # m.author_id = user.id
 
 
-    #   print(m.category)
-        if commit:
-            m.save()
-    #     print(m.get_all_data())
-        m.category.set(self.cleaned_data["category"])
-        return m
+    # #   print(m.category)
+    #     if commit:
+    #         m.save()
+    # #     print(m.get_all_data())
+    #     m.category.set(self.cleaned_data["category"])
+    #     return m
     
 
     def __init__(self, *args, **kwargs):
+        # breakpoint()    
+        user = None
+        if "user" in kwargs:
+            user = kwargs.pop('user')
+
         super(BlogCreationForm, self).__init__(*args, **kwargs)
         self.fields['category'].widget = forms.CheckboxSelectMultiple()
         self.fields['category'].queryset = Category.objects.all()
-
+        blog= self.instance
+        if user:
+            blog.author = user
+        
+        

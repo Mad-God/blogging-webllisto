@@ -116,7 +116,7 @@ class Blog(models.Model):
 
     category = models.ManyToManyField(Category, related_name = "blogs")
 
-    last_updated = models.DateTimeField(blank = True, null = True)
+    last_updated = models.DateTimeField(auto_now = True, blank = True, null = True)
 
     objects = BlogCustomModel()
 

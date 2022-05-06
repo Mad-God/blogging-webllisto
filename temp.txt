@@ -48,3 +48,9 @@ todo:
     done: search blogs on title
 
 
+------------- 6 may ---------------
+
+    done: author for blog now being set through __init__ of form, 
+            no longer overriding save() of form class, so longer have to 
+            save the blog object twice for m2m field
+    
