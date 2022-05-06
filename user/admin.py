@@ -11,6 +11,7 @@ class UserAdminConf(admin.ModelAdmin):
         '''
             check if the 'verified field is changed on the model. If yes, and verified is true, sends the mail.
         '''
+        
         if 'verified' in form.changed_data and obj.verified:
             # send mail
             print("mail was sent from the signal. to the user")

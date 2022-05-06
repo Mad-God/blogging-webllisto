@@ -5,6 +5,7 @@ from django.shortcuts import redirect, reverse
 from datetime import datetime
 from tinymce.models import HTMLField
 from django.db.models import Count, F, Value, Q
+from django.db.models.signals import post_save, pre_save, post_delete, pre_delete
 
 from user.models import User
 
@@ -21,7 +22,7 @@ class PostQuerySet(models.QuerySet):
 
 
     def category(self, cat):
-        
+
         # previous code
         if False:
             # qs = []
@@ -126,6 +127,8 @@ class Blog(models.Model):
 
     objects = BlogCustomModel()
 
+    deleted = models.BooleanField(default = False)
+
 
     def __str__(self):
         return self.title + ", by: " + str(self.author)
@@ -140,4 +143,17 @@ class Blog(models.Model):
                 cats += str(i)
         print("cats for the blog: ", cats)
         return str(self.title) + str(self.author) + cats
+
+
+
+
+def post_blog_created_signal(sender, instance, created, **kwargs):
+    # breakpoint()
+    print(instance, created)
+    if created:
+        instance.edited = None
+        
+
+
+post_save.connect(post_blog_created_signal, sender = Blog)
 

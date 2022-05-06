@@ -64,8 +64,22 @@
       </a>
 
    {% endfor %}
+
+{% comment %} Delete link if blogs requested for delete {% endcomment %}
+   {% if True %}
+   <a href = "{% url 'blog:to-delete-blog' %}" class = "text-right">
+      <span class="text-right bg-red-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-blue-800">Requested for Deletion {{del_request}}</span>
+
+   </a>
+   {% else %}
+   {% endif %}
+
+{% comment %} Blog list Heading {% endcomment %}
 {% if cat_label %}
    <h1> These are all the blogs in {{cat_label}}: </h1>   
+{% elif num_del %}
+   <h1>{{cat_label}} blogs requested for deletion</h1>   
+
 {% else %}
    <h1> These are all the blogs till now: </h1>
 {% endif %}
@@ -96,11 +110,19 @@
             <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">{{cat}}</span>
       
          </a>
-        
-        {% endfor %}
+         {% endfor %}
+         {% comment %} the delete button {% endcomment %}
+         {% if request.user.is_superuser %}
+          <a href = "{% url 'blog:blog-delete' pk=blog.id %}">
+             <span class="bg-red-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-blue-800">Delete</span>
+      
+          </a>
+         
+         {% else %}
+         {% endif %}
         </div>  
-        </a>
-    
-    {% endfor %}
-</div>
+      </a>
+      
+      {% endfor %}
+   </div>
 {% endblock %}

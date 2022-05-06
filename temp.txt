@@ -53,4 +53,9 @@ todo:
     done: author for blog now being set through __init__ of form, 
             no longer overriding save() of form class, so longer have to 
             save the blog object twice for m2m field
-    
+    done: optimise category wise blog fetching query in the queryset class
+
+    done: delete view for blogs
+
+    done: added delete filter to blogs to see blgos requested for deletion
+

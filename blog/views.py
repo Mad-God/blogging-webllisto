@@ -100,6 +100,7 @@ def blog_list(request):
     print(blogs)
     context = {"blogs":blogs}
     context["categories"] = Category.objects.all()
+    context["del_request"] = Blog.objects.filter(deleted = True).count()
     return render(request, "blog/blog_list.html", context)
 
 
@@ -126,3 +127,17 @@ def blog_by_category(request, cat = None):
     context["categories"] = Category.objects.all()
     context["cat_label"] = cat.name
     return render(request, "blog/blog_list.html", context)
+
+
+def blog_for_deletion(request):
+    blogs = Blog.objects.filter(deleted = True)
+    return render(request, "blog/blog_list.html", {"blogs":blogs, "num_del":len(blogs)})
+
+
+def blog_delete(request, pk):
+    blog = Blog.objects.get(id = pk)
+    blog.delete()
+    return redirect("blog:list")
+
+
+    

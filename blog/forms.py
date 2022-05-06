@@ -13,7 +13,7 @@ class BlogCreationForm(forms.ModelForm):
 
     class Meta:
         model = Blog
-        fields = ("title", 'body', 'category')
+        fields = ("title", 'body', 'category', "deleted")
 
     
     # def save(self, commit=True, **kwargs):
@@ -46,5 +46,4 @@ class BlogCreationForm(forms.ModelForm):
         blog= self.instance
         if user:
             blog.author = user
-        
         
