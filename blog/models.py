@@ -21,29 +21,35 @@ class PostQuerySet(models.QuerySet):
 
 
     def category(self, cat):
-        # print("asdaksjdhashdbjhabsd")
-        # print(cat)
-        # print(self.annotate(cats = F('category')).filter(cats__icontains = 'ML'))
-        # breakpoint()
-        qs = []
-        model = self.model
-        # qs = model.objects.none()
-        # print(type(qs))
-        print(self.__dict__)
-        qs = []
-        for i in self:
-            print(i.category.all())
-            if cat in i.category.all():
-                # qs |= (i)
-                qs.append(i.id)
+        
+        # previous code
+        if False:
+            # qs = []
+            # model = self.model
+            # # qs = model.objects.none()
+            # # print(type(qs))
+            # print(self.__dict__)
+            # qs = []
+            # for i in self:
+            #     print(i.category.all())
+            #     if cat in i.category.all():
+            #         # qs |= (i)
+            #         qs.append(i.id)
 
-        print("asdasdasdasd", qs)
-        qsf = self.filter(id__in = qs)
+            # print("asdasdasdasd", qs)
+            # qsf = self.filter(id__in = qs)
+            pass
+        
+        
+        qsnew = cat.blogs.all()
+        print("\n\n\nqsnew: ", qsnew, "\n\n\n")
         # breakpoint()
-        return qsf
+        return qsnew
         # return self.annotate(cats = F('category')).filter(cats__icontains = cat.name)
-# from blog.models import Blog, Category
-# cat = Category.objects.last()
+
+
+
+
 class PostManager(models.Manager):
 
     # now we can use Post.objects.sorted() to get the 
