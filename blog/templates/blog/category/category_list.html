@@ -1,0 +1,101 @@
+{% extends "base.html" %} {% load tailwind_filters %} {% block content %}
+<style>
+   body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+   }
+   * {
+      box-sizing: border-box;
+   }
+   .card {
+      color: white;
+      float: left;
+      width: calc(25% - 20px);
+      padding: 10px;
+      border-radius: 10px;
+      margin: 10px;
+      height: 300px;
+   }
+   .card p {
+      font-size: 18px;
+   }
+   .cardContainer:after {
+      content: "";
+      display: table;
+      clear: both;
+   }
+   @media screen and (max-width: 600px) {
+      .card {
+         width: 100%;
+      }
+   }
+</style>
+<section>
+
+
+<h1> The categories: </h1>
+   {% for cat in categories %}
+     
+        <a href = "{% url 'blog:category-blog' slug=cat.slug %}">
+            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">{{cat}}</span>
+
+        </a>
+        {% if request.user.is_superuser %}
+            <a href = "{% url 'blog:category-delete' slug=cat.slug %}">
+               <button class = "btn btn-primary btn-blue">Delete
+                  {% comment %} <span class="bg-red-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-blue-800">Delete</span> {% endcomment %}
+               </button>
+            </a>
+         
+        {% else %}
+        {% endif %}
+      <br>
+      <br>
+      <br>
+      <br>
+
+   {% endfor %}
+
+
+<div class="cardContainer">
+    {% for blog in blogs %}
+            {% if blog.author == request.user %}
+                <a href = "{% url 'blog:update' slug=blog.slug %}">
+                <div class="card" style="background-color:rgb(15, 229, 22);" >   
+            {% else %}
+                <a href = "#">
+                <div class="card" style="background-color:rgb(153, 29, 224);">
+            {% endif %}
+        <h1>{{blog.title}}</h1>
+        <br>
+        <p> {{blog.body|safe|slice:":15" }}...</p>
+        <br>
+        <p class="text-right">by- {{blog.author}}</p>
+        {% if blog.last_updated %}
+            <p class="text-right"><i>edited- </i> {{blog.last_updated}}</p>
+        {% else %}
+            <p class="text-right"><i>created- </i> {{blog.created_on}}</p>
+        {% endif %}
+        <br>
+        
+        {% for cat in blog.category.all %}
+         <a href = "{% url 'blog:category-blog' slug=cat.slug %}">
+            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">{{cat}}</span>
+      
+         </a>
+         {% endfor %}
+         {% comment %} the delete button {% endcomment %}
+         {% if request.user.is_superuser %}
+            <a href = "{% url 'blog:blog-delete' slug=blog.slug %}">
+               <button class = "btn btn-primary btn-blue">Delete
+                  {% comment %} <span class="bg-red-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-blue-800">Delete</span> {% endcomment %}
+               </button>
+            </a>
+         
+         {% else %}
+         {% endif %}
+        </div>  
+      </a>
+      
+      {% endfor %}
+   </div>
+{% endblock %}

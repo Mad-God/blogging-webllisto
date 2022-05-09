@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.http import HttpResponse
 from django.shortcuts import redirect, reverse
 
-from .forms import BlogCreationForm
+from .forms import BlogCreationForm, CategoryCreationForm
 from .models import Blog, Category
 
 
@@ -141,4 +141,46 @@ def blog_delete(request, slug):
     return redirect("blog:list")
 
 
+# CATEGORY VIEWS
+
+
+def category_create(request):
+    msg = ''
+    if not request.user.is_superuser:
+        msg = "you are not verified as a superuser"
     
+    
+    if request.method == 'POST':
+        form = CategoryCreationForm(request.POST)
+
+        if form.is_valid():
+            bl = form.save()
+            return redirect("blog:list")
+
+        else:
+            print(form.errors)
+            print('\n\nForm Invalid!!!')
+
+    form = CategoryCreationForm()
+    context = {"form": form, "msg":msg}
+    return render(request, "blog/category/category_create.html", context)
+
+
+
+def category_list(request):
+
+
+    category = Category.objects.all()
+    # print(blogs)
+    context = {"categories":category}
+    
+    return render(request, "blog/category/category_list.html", context)
+
+
+
+def category_delete(request, slug):
+    if request.user.is_superuser:
+        blog = Category.objects.get(slug = slug)
+        blog.delete()
+    return redirect("blog:list")
+

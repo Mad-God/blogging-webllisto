@@ -170,7 +170,16 @@ def create_slug(instance, new_slug = None):
         return create_slug(instance, new_slug = new_slug)
     return slug
 
-
+def create_slug_category(instance, new_slug = None):
+    slug = slugify(instance.name)
+    if new_slug is not None:
+        slug = new_slug
+    qs = Blog.objects.filter(slug = slug)
+    exists = qs.exists()
+    if exists:
+        new_slug = "%s-%s"%(slug, qs.first().id)
+        return create_slug(instance, new_slug = new_slug)
+    return slug
 
 
 def pre_blog_created_signal(sender, instance, **kwargs):
@@ -191,24 +200,11 @@ def pre_blog_created_signal(sender, instance, **kwargs):
 
 
 
-    
-
-
-
-
-
-
 
 def pre_category_created_signal(sender, instance, **kwargs):
-    # breakpoint()
-    # slug = slugify(instance.name)
-    # exists = Blog.objects.filter(slug = slug).exists()
-
-    # if exists:
-    #    slug = "%s-%s" %(slug, instance.id)
-    # instance.slug = slug
+    
     if not instance.slug:
-        instance.slug = create_slug(instance)
+        instance.slug = create_slug_category(instance)
     
 
 

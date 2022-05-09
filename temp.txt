@@ -70,5 +70,5 @@ todo:
 
     slug field for category field
 
-
+    category create, delete view
     
