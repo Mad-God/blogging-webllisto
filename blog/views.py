@@ -49,9 +49,9 @@ def blog_create(request):
 
 
 
-def blog_update(request, pk):
+def blog_update(request, slug):
 
-    blog = Blog.objects.get(id = pk)
+    blog = Blog.objects.get(slug = slug)
     
     form = BlogCreationForm(instance = blog)
     msg = ''
@@ -104,7 +104,7 @@ def blog_list(request):
     return render(request, "blog/blog_list.html", context)
 
 
-def blog_by_category(request, cat = None):
+def blog_by_category(request, slug = None):
 
     if request.GET.get("q"):
         # print("\n\n\n\n",self.request.GET.get("q"), "get")
@@ -119,7 +119,7 @@ def blog_by_category(request, cat = None):
         context["categories"] = Category.objects.all()
         return render(request, "blog/blog_list.html", context)
 
-    cat = Category.objects.get(id = cat)
+    cat = Category.objects.get(slug = slug)
     blogs = Blog.objects.category(cat)
     # blogs = Blog.objects.all()
     # print(blogs)
@@ -134,9 +134,10 @@ def blog_for_deletion(request):
     return render(request, "blog/blog_list.html", {"blogs":blogs, "num_del":len(blogs)})
 
 
-def blog_delete(request, pk):
-    blog = Blog.objects.get(id = pk)
-    blog.delete()
+def blog_delete(request, slug):
+    if request.user.is_superuser:
+        blog = Blog.objects.get(slug = slug)
+        blog.delete()
     return redirect("blog:list")
 
 

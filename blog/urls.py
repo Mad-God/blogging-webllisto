@@ -4,14 +4,16 @@ from .views import *
 # from shop import views
 
 
+
 app_name = "blog"
 
 urlpatterns = [
     path('', blog_create,name = 'create'),
     path('create', blog_create,name = 'create'),
-    path('update/<int:pk>', blog_update,name = 'update'),
+    # path('create', blog_create2,name = 'create2'),
+    path('update/<slug>', blog_update,name = 'update'),
     path('list', blog_list,name = 'list'),
-    path('category/<int:cat>', blog_by_category,name = 'category-blog'),
+    path('category/<slug>', blog_by_category,name = 'category-blog'),
     path('for-deletion', blog_for_deletion,name = 'to-delete-blog'),
-    path('delete-blog<int:pk>', blog_delete,name = 'blog-delete'),
+    path('delete-blog/<slug>', blog_delete,name = 'blog-delete'),
 ]

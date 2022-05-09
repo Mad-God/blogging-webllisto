@@ -58,7 +58,7 @@
 
 <h1> The categories: </h1>
    {% for cat in categories %}
-      <a href = "{% url 'blog:category-blog' cat=cat.id %}">
+      <a href = "{% url 'blog:category-blog' slug=cat.slug %}">
          <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">{{cat}}</span>
 
       </a>
@@ -87,7 +87,7 @@
 <div class="cardContainer">
     {% for blog in blogs %}
             {% if blog.author == request.user %}
-                <a href = "{% url 'blog:update' pk=blog.id %}">
+                <a href = "{% url 'blog:update' slug=blog.slug %}">
                 <div class="card" style="background-color:rgb(15, 229, 22);" >   
             {% else %}
                 <a href = "#">
@@ -106,17 +106,18 @@
         <br>
         
         {% for cat in blog.category.all %}
-         <a href = "{% url 'blog:category-blog' cat=cat.id %}">
+         <a href = "{% url 'blog:category-blog' slug=cat.slug %}">
             <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">{{cat}}</span>
       
          </a>
          {% endfor %}
          {% comment %} the delete button {% endcomment %}
          {% if request.user.is_superuser %}
-          <a href = "{% url 'blog:blog-delete' pk=blog.id %}">
-             <span class="bg-red-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-blue-800">Delete</span>
-      
-          </a>
+            <a href = "{% url 'blog:blog-delete' slug=blog.slug %}">
+               <button class = "btn btn-primary btn-blue">Delete
+                  {% comment %} <span class="bg-red-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-blue-800">Delete</span> {% endcomment %}
+               </button>
+            </a>
          
          {% else %}
          {% endif %}

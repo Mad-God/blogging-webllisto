@@ -33,7 +33,7 @@ class UserAdminConf(admin.ModelAdmin):
             recipient_list = [obj.email],
             fail_silently=False,
             )
-
+        obj.save()
 
     
 admin.site.register(User, UserAdminConf)

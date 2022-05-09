@@ -59,3 +59,16 @@ todo:
 
     done: added delete filter to blogs to see blgos requested for deletion
 
+
+
+
+------------- 7 may -------------------
+
+    mail on deletion request
+
+    slug field in url for detail view
+
+    slug field for category field
+
+
+    

@@ -6,7 +6,7 @@ from datetime import datetime
 from tinymce.models import HTMLField
 from django.db.models import Count, F, Value, Q
 from django.db.models.signals import post_save, pre_save, post_delete, pre_delete
-
+from django.utils.text import slugify
 from user.models import User
 
 
@@ -111,7 +111,7 @@ class BlogCustomModel(models.Manager):
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-
+    slug = models.SlugField(unique=True)
     def __str__(self):
         return self.name
 
@@ -121,13 +121,15 @@ class Blog(models.Model):
     author = models.ForeignKey(User, related_name = "blogs", on_delete=models.CASCADE, blank = True, null=True)
     created_on = models.DateTimeField(default = datetime.now())
 
-    category = models.ManyToManyField(Category, related_name = "blogs")
+    category = models.ManyToManyField(Category, related_name = "blogs", blank = True, null = True)
 
     last_updated = models.DateTimeField(auto_now = True, blank = True, null = True)
 
     objects = BlogCustomModel()
 
     deleted = models.BooleanField(default = False)
+
+    slug = models.SlugField(unique=True)
 
 
     def __str__(self):
@@ -155,5 +157,68 @@ def post_blog_created_signal(sender, instance, created, **kwargs):
         
 
 
+
+
+def create_slug(instance, new_slug = None):
+    slug = slugify(instance.title)
+    if new_slug is not None:
+        slug = new_slug
+    qs = Blog.objects.filter(slug = slug)
+    exists = qs.exists()
+    if exists:
+        new_slug = "%s-%s"%(slug, qs.first().id)
+        return create_slug(instance, new_slug = new_slug)
+    return slug
+
+
+
+
+def pre_blog_created_signal(sender, instance, **kwargs):
+    # breakpoint()
+    # slug = slugify(instance.title)
+    # exists = Blog.objects.filter(slug = slug).exists()
+
+    # if exists:
+    #    slug = "%s-%s" %(slug, instance.id)
+    # instance.slug = slug
+
+    if not instance.slug:
+        instance.slug = create_slug(instance)
+    
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+def pre_category_created_signal(sender, instance, **kwargs):
+    # breakpoint()
+    # slug = slugify(instance.name)
+    # exists = Blog.objects.filter(slug = slug).exists()
+
+    # if exists:
+    #    slug = "%s-%s" %(slug, instance.id)
+    # instance.slug = slug
+    if not instance.slug:
+        instance.slug = create_slug(instance)
+    
+
+
+
+        
+
+
+
+
 post_save.connect(post_blog_created_signal, sender = Blog)
+pre_save.connect(pre_blog_created_signal, sender = Blog)
+pre_save.connect(pre_category_created_signal, sender = Category)
 
