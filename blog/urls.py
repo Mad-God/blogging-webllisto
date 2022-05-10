@@ -12,6 +12,7 @@ urlpatterns = [
     # blog urls
     path('list', blog_list,name = 'list'),
     path('create', blog_create,name = 'create'),
+    path('detail/<slug>', blog_detail,name = 'detail'),
     path('for-deletion', blog_for_deletion,name = 'to-delete-blog'),
     path('update/<slug>', blog_update,name = 'update'),
     path('delete-blog/<slug>', blog_delete,name = 'blog-delete'),

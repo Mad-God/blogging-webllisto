@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_tailwind',
     'tinymce',
+    'ckeditor',
 
 
     # custom
@@ -128,6 +129,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'static_root'
+
+STATICFILES_DIRS = [
+    BASE_DIR/'static',
+    BASE_DIR/'static/slides',
+]
+
 
 AUTH_USER_MODEL = "user.User"
 
@@ -148,12 +156,12 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = 'tailwind'
 
 # for django in-built mailing server
 
-# EMAIL_HOST = "localhost"
-# EMAIL_PORT = "1025"
-# EMAIL_HOST_USER = ""
-# EMAIL_HOST_PASSWORD = ""
-# EMAIL_USE_TLS = False
-# EMAIL_USE_SSL = False
+    # EMAIL_HOST = "localhost"
+    # EMAIL_PORT = "1025"
+    # EMAIL_HOST_USER = ""
+    # EMAIL_HOST_PASSWORD = ""
+    # EMAIL_USE_TLS = False
+    # EMAIL_USE_SSL = False
 
 # for gmail mailing server
 

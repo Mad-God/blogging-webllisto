@@ -1,11 +1,7 @@
 multiple images, files in description,
-search functionality, categories for blogs,
-blog deletion on category deletion, super author, apply for deletion to super author,
-subscription plan on model, test cases using pytest, 
-
-overwrite the user manager so it doesn't ask for username, 
-
-slug field in models, tinymce and other plugin, 
+search functionality,
+blog deletion on category deletion, super author,
+subscription plan on model, test cases using pytest,
 
 
 
@@ -62,7 +58,7 @@ todo:
 
 
 
-------------- 7 may -------------------
+------------- 9 may -------------------
 
     mail on deletion request
 
@@ -71,4 +67,23 @@ todo:
     slug field for category field
 
     category create, delete view
+
+
+
+------------- 10 may ------------------
+
+    not now: blog deletion on category deletion
+
+    done: blog image
+
+    files, images in description
+
+    done: detail view for blogs
+
+    tinymce and other plugin,
+
+    permissions
     
+    tinymce
+
+    media directory

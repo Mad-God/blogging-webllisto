@@ -4,20 +4,20 @@ from django.shortcuts import redirect, reverse
 
 from .forms import BlogCreationForm, CategoryCreationForm
 from .models import Blog, Category
-
+from .decorators import custom_login_required
 
 # Create your views here.
 
 
-
+@custom_login_required
 def blog_create(request):
     msg = ''
-    if not request.user.verified:
-        msg = "you are not verified as an author"
+    # if not request.user.verified:
+    #     msg = "you are not verified as an author"
     
     
     if request.method == 'POST':
-        form = BlogCreationForm(request.POST, user = request.user)
+        form = BlogCreationForm(request.POST,request.FILES or None, user = request.user)
 
         if form.is_valid():
             # print(request.user.email, request.user.id)
@@ -60,7 +60,7 @@ def blog_update(request, slug):
     
     # form = BlogCreationForm
     if request.method == 'POST':
-        form = BlogCreationForm(request.POST, instance = blog)
+        form = BlogCreationForm(request.POST, request.FILES or None, instance = blog)
 
         if form.is_valid():
             form.save()
@@ -76,7 +76,9 @@ def blog_update(request, slug):
     return render(request, "blog/blog_create.html", context)
 
 
-
+def blog_detail(request, slug):
+    blog = Blog.objects.get(slug=slug)
+    return render(request, "blog/blog_detail.html", {"blog":blog})
 
 
 def blog_list(request):

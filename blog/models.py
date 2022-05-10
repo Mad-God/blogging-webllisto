@@ -8,7 +8,7 @@ from django.db.models import Count, F, Value, Q
 from django.db.models.signals import post_save, pre_save, post_delete, pre_delete
 from django.utils.text import slugify
 from user.models import User
-
+from ckeditor.fields import RichTextField
 
 
 
@@ -117,9 +117,10 @@ class Category(models.Model):
 
 class Blog(models.Model):
     title = models.CharField(max_length = 40)
-    body = HTMLField()
+    body = RichTextField(blank = True, null = True)
     author = models.ForeignKey(User, related_name = "blogs", on_delete=models.CASCADE, blank = True, null=True)
     created_on = models.DateTimeField(default = datetime.now())
+    img = models.ImageField(upload_to = "/blog", blank = True, null = True)
 
     category = models.ManyToManyField(Category, related_name = "blogs", blank = True, null = True)
 
@@ -156,7 +157,7 @@ def post_blog_created_signal(sender, instance, created, **kwargs):
         instance.edited = None
         
 
-
+ 
 
 
 def create_slug(instance, new_slug = None):
@@ -169,6 +170,8 @@ def create_slug(instance, new_slug = None):
         new_slug = "%s-%s"%(slug, qs.first().id)
         return create_slug(instance, new_slug = new_slug)
     return slug
+
+
 
 def create_slug_category(instance, new_slug = None):
     slug = slugify(instance.name)
@@ -197,19 +200,12 @@ def pre_blog_created_signal(sender, instance, **kwargs):
 
 
 
-
-
-
-
 def pre_category_created_signal(sender, instance, **kwargs):
     
     if not instance.slug:
         instance.slug = create_slug_category(instance)
     
 
-
-
-        
 
 
 
