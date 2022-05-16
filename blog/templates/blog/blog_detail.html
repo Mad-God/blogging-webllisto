@@ -1,4 +1,5 @@
 {% extends "base.html" %} {% load tailwind_filters %} {% block content %}
+{% load static %}
 
 <div class="container my-24 px-6 mx-auto">
 
@@ -21,7 +22,8 @@
                 id="cta-img-nml-50" style="z-index: 10" alt="" />
                 
             {% else %}
-                <img src="/{{blog.img}}" class="w-full rounded-lg shadow-lg"
+                {{blog.img}} asdadads
+                <img src="{% static blog.img %}"
                 id="cta-img-nml-50" style="z-index: 10" alt="" />
                 {% comment %} <img src = "/{{blog.img}}"> {% endcomment %}
             {% endif %}

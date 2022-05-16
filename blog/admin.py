@@ -1,8 +1,14 @@
 from django.contrib import admin
-
 from .models import Blog, Category
+from .forms import BlogCreationForm
 # Register your models here.
 
-admin.site.register(Blog)
+
+
+class CustomBlogAdmin(admin.ModelAdmin):
+    form = BlogCreationForm
+    
+
+admin.site.register(Blog, CustomBlogAdmin)
 admin.site.register(Category)
 

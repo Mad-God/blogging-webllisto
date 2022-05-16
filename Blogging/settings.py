@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,7 +43,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_tailwind',
     'tinymce',
-    'ckeditor',
 
 
     # custom
@@ -65,7 +65,8 @@ ROOT_URLCONF = 'Blogging.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR /"templates"],
+        # 'DIRS': [BASE_DIR /"templates"],
+        'DIRS': [os.path.join(BASE_DIR, 'templates/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,27 +130,77 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = 'static_root'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
+
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+
 
 STATICFILES_DIRS = [
-    BASE_DIR/'static',
-    BASE_DIR/'static/slides',
+    os.path.join(BASE_DIR,'static'),
+    os.path.join(BASE_DIR,'blog/static/blog'),
+    MEDIA_ROOT, 
+    # BASE_DIR/'static/slides',
 ]
 
 
-AUTH_USER_MODEL = "user.User"
 
+
+
+
+
+AUTH_USER_MODEL = "user.User"
 
 
 # used when a login required mixin is used
 LOGIN_URL = '/login'
 # To redirect when we login using the LoginView class
 LOGIN_REDIRECT_URL = '/'
-
 LOGOUT_REDIRECT_URL = '/login'
 
+
+
+# Third party configuration
+
+
+# crispy
 CRISPY_TEMPLATE_PACK = 'tailwind'
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'tailwind'
+
+
+# tinymce
+
+
+# no need to set these, as this is already configured by tinymce
+
+# TINYMCE_JS_URL = os.path.join(STATIC_URL, "path/to/tiny_mce/tiny_mce.js")
+# TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, "path/to/tiny_mce")
+
+# these are the default settings, you can change if u want
+TINYMCE_DEFAULT_CONFIG = {
+    "theme": "silver",
+    "height": 500,
+    "menubar": False,
+    "plugins": "advlist,autolink,lists,link,image,charmap,print,preview,anchor,image code"
+    "searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,paste,"
+    "code,help,wordcount",
+    "toolbar": "undo redo | formatselect | "
+    "bold italic backcolor | alignleft aligncenter "
+    "alignright alignjustify | bullist numlist outdent indent | "
+    "removeformat | help",
+}
+
+TINYMCE_EXTRA_MEDIA = {
+    'css': {
+        'all': [
+        ],
+    },
+    'js': [
+    ],
+}
+
+
 
 # Email configurations
 

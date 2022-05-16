@@ -3,12 +3,10 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.http import HttpResponse
 from django.shortcuts import redirect, reverse
 from datetime import datetime
-from tinymce.models import HTMLField
 from django.db.models import Count, F, Value, Q
 from django.db.models.signals import post_save, pre_save, post_delete, pre_delete
-from django.utils.text import slugify
+from django.utils.text import slugify   
 from user.models import User
-from ckeditor.fields import RichTextField
 
 
 
@@ -117,10 +115,10 @@ class Category(models.Model):
 
 class Blog(models.Model):
     title = models.CharField(max_length = 40)
-    body = RichTextField(blank = True, null = True)
+    body = models.TextField(max_length = 800, blank = True, null = True)
     author = models.ForeignKey(User, related_name = "blogs", on_delete=models.CASCADE, blank = True, null=True)
     created_on = models.DateTimeField(default = datetime.now())
-    img = models.ImageField(upload_to = "/blog", blank = True, null = True)
+    img = models.ImageField(upload_to = "blog/", blank = True, null = True)
 
     category = models.ManyToManyField(Category, related_name = "blogs", blank = True, null = True)
 

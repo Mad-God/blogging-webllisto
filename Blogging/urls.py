@@ -5,6 +5,11 @@ from django.contrib.auth.views import (
         PasswordResetConfirmView, PasswordResetCompleteView, 
     )
 from user import views as u_views
+from django.conf import settings
+from django.conf.urls.static import static
+
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -20,5 +25,23 @@ urlpatterns = [
     path('login/', u_views.login,name = 'login'),
     path('logout/', u_views.logout,name = 'logout'),
     path('signup/', u_views.signup,name = 'signup'),
+
+    # for timymce
+    path('tinymce/', include('tinymce.urls')),
+
     
 ]
+
+
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
+# if settings.DEBUG:
+#     urlpatterns += [(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+#             'document_root': settings.MEDIA_ROOT,
+#         }),
+#         (r'^static/(?P<path>.*)$', 'django.views.static.serve', {
+#             'document_root': settings.STATIC_ROOT,
+#         })]

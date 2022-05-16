@@ -82,8 +82,22 @@ todo:
 
     tinymce and other plugin,
 
-    permissions
+    permissions: types of permissions, signal permissions, 
     
     tinymce
 
     media directory
+
+
+
+--------------- 16th may --------------
+
+    read the docs tinyMCE
+
+    add the js plugin code to base template
+
+    update settings for tinymce
+
+    override form wdget for the admin panel form of blogs
+
+    

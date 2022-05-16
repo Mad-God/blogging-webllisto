@@ -3,13 +3,15 @@ from .models import Blog, Category
 from user.models import User
 from datetime import datetime
 from django.core.mail import send_mail
-# from tinymce.widgets import TinyMCE
-# from django.shortcuts import reverse
+from tinymce.widgets import TinyMCE
+from django.shortcuts import reverse
+# from django.contrib.flatpages.models import FlatPage
+
 
 
 class BlogCreationForm(forms.ModelForm):
 
-    # body = forms.CharField(widget=TinyMCE(mce_attrs={'external_link_list_url': reverse('blog:list')}))
+    body = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30}, mce_attrs={}))
 
 
     class Meta:
