@@ -100,4 +100,10 @@ todo:
 
     override form wdget for the admin panel form of blogs
 
+    create the reader and author groups in admin panel
+
+    auto add reader group to user upon signup
+
+    added the login_required and allowed_user decorator to the blog create view
+
     

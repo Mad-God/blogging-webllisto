@@ -1,6 +1,6 @@
 from datetime import datetime
 from django.db import models
-from django.contrib.auth.models import AbstractUser, AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group
 from django.shortcuts import redirect, reverse
 from django.db.models.signals import post_save, pre_save, post_delete, pre_delete
 from django.core.mail import send_mail
@@ -111,7 +111,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 # 6, 14, 35, 741586, tzinfo=<UTC>),
   
 
-    objects = CustomUserManager()
+    objects = CustomUserManager()   
 
 
 
@@ -122,16 +122,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         return str(self.email) + " " +str(self.author) + " " +str(self.verified) + " " +str(self.updated)
 
 
-    def save(self, **kwargs):
-        # breakpoint()
-        m = super(User, self).save()
-
-        # m.last_updated = datetime.now() 
-        # if "user" in kwargs:
-        #     user = kwargs["user"]
-        #     m.author = user
-        #     # m.author_id = user.id
-
+    # def save(self, **kwargs):
+    #     # breakpoint()
+    #     m = super(User, self).save()
+        
+        
 
 
 

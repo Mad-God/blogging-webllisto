@@ -1,0 +1,6 @@
+we make groups and put users in them. Then, based on these groups,
+    we decide whether to show a page or not.
+
+
+model level permissions:
+    
