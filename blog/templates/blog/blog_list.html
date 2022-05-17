@@ -94,10 +94,10 @@
                 <a href = "#">
                 <div class="card" style="background-color:rgb(153, 29, 224); height:500px">
             {% endif %}
-         {% if blog.img == None %}
-            <img src = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg">
+         {% if blog.img %}
+            <img src = "{% static blog.img %}" style="height:200px; width:400px">
          {% else %}
-            <img src = "{% static blog.img %}">
+            <img src = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" style="height:200px; width:400px">
          {% endif %}
          <a href = "{% url 'blog:detail' slug=blog.slug %}">
         <h1 class = "text-2xl hover:text-base">{{blog.title}}</h1>

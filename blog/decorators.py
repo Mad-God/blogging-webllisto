@@ -16,8 +16,6 @@ def custom_login_required(view_func):
             return redirect("login")
     return wrapper_func
 
-    pass
-
 
 def allowed_users(allowed_users = []):
     def decorator(view_func):

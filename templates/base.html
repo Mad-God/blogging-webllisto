@@ -66,11 +66,21 @@
 
 
 <script >
+
+{% comment %} 
+tinymce.init({
+  selector: 'textarea',  // change this value according to your HTML
+  plugins: 'link',
+  menubar: 'insert',
+  toolbar: 'link'
+});
+   {% endcomment %}
+
     
 tinymce.init({
   selector: 'textarea',
-  plugins: 'image code',
-  toolbar: 'undo redo | link image | code',
+  plugins: 'image code link',
+  toolbar: 'undo redo | link image | code | link',
   /* enable title field in the Image dialog*/
   image_title: true,
   /* enable automatic uploads of images represented by blob or data URIs*/
@@ -123,6 +133,9 @@ tinymce.init({
 });
 
 
+
 </script>
+
+
 
 </html>

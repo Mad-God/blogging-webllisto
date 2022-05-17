@@ -12,3 +12,4 @@ class CustomBlogAdmin(admin.ModelAdmin):
 admin.site.register(Blog, CustomBlogAdmin)
 admin.site.register(Category)
 
+ 
