@@ -5,11 +5,11 @@ from .forms import BlogCreationForm
 
 
 
-class CustomBlogAdmin(admin.ModelAdmin):
-    form = BlogCreationForm
+# class CustomBlogAdmin(admin.ModelAdmin):
+#     form = BlogCreationForm
     
 
-admin.site.register(Blog, CustomBlogAdmin)
+admin.site.register(Blog)
 admin.site.register(Category)
 
  

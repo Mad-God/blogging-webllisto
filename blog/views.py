@@ -4,13 +4,16 @@ from django.shortcuts import redirect, reverse
 
 from .forms import BlogCreationForm, CategoryCreationForm
 from .models import Blog, Category
-from .decorators import custom_login_required, allowed_users
+from .decorators import custom_login_required, allowed_users, group_required
+from django.contrib.auth.decorators import permission_required
 
 # Create your views here.
 
 
 # @custom_login_required
-@allowed_users(allowed_users = ['author'])
+# @allowed_users(allowed_users = ['author'])
+# @permission_required('blog.add_blog')
+@group_required('author')
 def blog_create(request):
     msg = ''
     # if not request.user.verified:

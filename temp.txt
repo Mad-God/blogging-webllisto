@@ -3,6 +3,16 @@ search functionality,
 blog deletion on category deletion, super author,
 subscription plan on model, test cases using pytest,
 
+draft and publish field in blog.
+
+
+authentication, authorisation,
+permission:
+    edit, 
+    model level permission,
+    object level permission,
+
+
 
 
 ------------ done 3 may ---------
@@ -106,4 +116,9 @@ todo:
 
     added the login_required and allowed_user decorator to the blog create view
 
+
+
+------------ 17th may ---------------
+
+    url plugin to the tinymce editor
     

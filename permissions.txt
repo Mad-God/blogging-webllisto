@@ -3,4 +3,53 @@ we make groups and put users in them. Then, based on these groups,
 
 
 model level permissions:
-    
+
+
+
+
+****************** DJANGO DOCS **********************
+
+
+
+----- permissions and authorisation:-----
+
+Django comes with a built-in permissions system
+
+
+we can overwrite 
+    has_add_permssions(), has_change_permssions(),
+    has_delete_permssions(), has_view_permssions()
+ methods provided by the ModelAdmin class, it is possible to
+ customize permissions for different object instances of 
+ the same type.
+
+
+User objects have two many-to-many fields: groups 
+ and user_permissions
+
+
+
+
+
+----- Default Permissions ------
+
+
+When django.contrib.auth is listed in your INSTALLED_APPS,there 
+ are 4 types of permissions created for each model in all apps:
+    view
+    change
+    add
+    delete
+
+These permissions are created each time you run migrate command
+
+to test for basic permissions you should use:
+    permission to add: user.has_perm('app_name.add_Model')
+    permission to change: user.has_perm('app_name.change_Model')
+
+
+
+------------------ Groups ----------------
+
+
+
