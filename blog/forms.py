@@ -17,7 +17,7 @@ class BlogCreationForm(forms.ModelForm):
 
     class Meta:
         model = Blog
-        fields = ("title", 'body', 'img','category', "deleted")
+        fields = ("title", 'body', 'img','category', "deleted", "published")
 
     
     def save(self, commit=True, **kwargs):

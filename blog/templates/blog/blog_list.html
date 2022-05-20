@@ -85,52 +85,98 @@
    <h1> These are all the blogs till now: </h1>
 {% endif %}
 
-<div class="container jumbotron-container cardContainer" style="background-color:Red">
-    {% for blog in blogs %}
-         <a href = "{% url 'blog:update' slug=blog.slug %}">
-            {% if blog.author == request.user %}
-                <div class="card" style="background-color:rgb(15, 229, 22); height:500px" >   
+<div class="container jumbotron-container cardContainer grid">
+   <div>
+      {% for blog in blogs %}
+            <a href = "{% url 'blog:update' slug=blog.slug %}">
+               {% if blog.author == request.user %}
+                  <div class="card" style="background-color:rgb(15, 229, 22); height:500px" >   
+               {% else %}
+                  <div class="card" style="background-color:rgb(153, 29, 224); height:500px">
+               {% endif %}
+            {% if blog.img %}
+               <img src = "{% static blog.img %}" style="height:200px; width:400px">
             {% else %}
-                <div class="card" style="background-color:rgb(153, 29, 224); height:500px">
+               <img src = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" style="height:200px; width:400px">
             {% endif %}
+            <a href = "{% url 'blog:detail' slug=blog.slug %}">
+         <h1 class = "text-2xl hover:text-base">{{blog.title}}</h1>
+            </a>
+         <br>
+         <p> {{blog.body|safe|slice:":15" }}...</p>
+         <br>
+         <p class="text-right">by- {{blog.author}}</p>
+         {% if blog.last_updated %}
+               <p class="text-right"><i>edited- </i> {{blog.last_updated}}</p>
+         {% else %}
+               <p class="text-right"><i>created- </i> {{blog.created_on}}</p>
+         {% endif %}
+         <br>
+         
+         {% for cat in blog.category.all %}
+            <a href = "{% url 'blog:category-blog' slug=cat.slug %}">
+               <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">{{cat}}</span>
+         
+            </a>
+            {% endfor %}
+            {% comment %} the delete button {% endcomment %}
+            {% if request.user.is_superuser %}
+               <a href = "{% url 'blog:blog-delete' slug=blog.slug %}">
+                  <button class = "btn btn-primary btn-blue">Delete
+                     {% comment %} <span class="bg-red-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-blue-800">Delete</span> {% endcomment %}
+                  </button>
+               </a>
+            
+            {% else %}
+            {% endif %}
+         </div>  
+         </a>
+         
+      {% endfor %}
+   </div>
+
+      <br><br>
+      <hr/>
+      <br>
+
+   {% if drafts %}
+   <div style="display:block">
+      <h1 style="background:Red;font-weight:Bold; font-size:30px">Your drafts:</h1>
+      {% for blog in drafts %}
+         <a href = "{% url 'blog:update' slug=blog.slug %}">
+         <div class="card" style="background-color:rgb(250, 89, 152); height:500px" >      
          {% if blog.img %}
             <img src = "{% static blog.img %}" style="height:200px; width:400px">
          {% else %}
             <img src = "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" style="height:200px; width:400px">
          {% endif %}
          <a href = "{% url 'blog:detail' slug=blog.slug %}">
-        <h1 class = "text-2xl hover:text-base">{{blog.title}}</h1>
+      <h1 class = "text-2xl hover:text-base">{{blog.title}}</h1>
          </a>
-        <br>
-        <p> {{blog.body|safe|slice:":15" }}...</p>
-        <br>
-        <p class="text-right">by- {{blog.author}}</p>
-        {% if blog.last_updated %}
+      <br>
+      <p> {{blog.body|safe|slice:":15" }}...</p>
+      <br>
+      <p class="text-right">by- {{blog.author}}</p>
+      {% if blog.last_updated %}
             <p class="text-right"><i>edited- </i> {{blog.last_updated}}</p>
-        {% else %}
+      {% else %}
             <p class="text-right"><i>created- </i> {{blog.created_on}}</p>
-        {% endif %}
-        <br>
-        
-        {% for cat in blog.category.all %}
+      {% endif %}
+      <br>
+      
+      {% for cat in blog.category.all %}
          <a href = "{% url 'blog:category-blog' slug=cat.slug %}">
             <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">{{cat}}</span>
       
-         </a>
-         {% endfor %}
-         {% comment %} the delete button {% endcomment %}
-         {% if request.user.is_superuser %}
-            <a href = "{% url 'blog:blog-delete' slug=blog.slug %}">
-               <button class = "btn btn-primary btn-blue">Delete
-                  {% comment %} <span class="bg-red-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-blue-800">Delete</span> {% endcomment %}
-               </button>
-            </a>
-         
-         {% else %}
-         {% endif %}
-        </div>  
       </a>
-      
       {% endfor %}
+            {% comment %} the delete button {% endcomment %}
+      </a>
+      {% endfor %}
+
+   </div>
+      {% endif %}
+
+
    </div>
 {% endblock %}

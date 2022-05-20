@@ -66,18 +66,6 @@ def blog_create(request):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 # @login_required
 # @permission_required("blog.change_blog")
 @is_author_decorator
@@ -117,10 +105,6 @@ def blog_update(request, slug):
 
 
 
-
-
-
-
 class BlogUpdateView(CheckAuthorMixin, UpdateView):
     template_name = 'blog/blog_create.html'
     form_class = BlogCreationForm
@@ -130,8 +114,6 @@ class BlogUpdateView(CheckAuthorMixin, UpdateView):
 
 
     def get_success_url(self):
-        print(self.object.product.shop)
-        print("asdsadasd")
 
         return reverse('blog:list')     
 
@@ -178,23 +160,6 @@ class BlogUpdateView(CheckAuthorMixin, UpdateView):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @login_required
 @permission_required("blog.view_blog")
 def blog_detail(request, slug):
@@ -222,12 +187,14 @@ def blog_list(request):
         return render(request, "blog/blog_list.html", context)
 
 
-    blogs = Blog.objects.all()
+    blogs = Blog.objects.filter(published=True)
     # blogs = get_objects_for_user(request.user, 'blog.view_blog', klass = Blog)
     print(blogs)
     context = {"blogs":blogs}
     context["categories"] = Category.objects.all()
+    context["drafts"] = Blog.objects.filter(published=False, author=request.user)
     context["del_request"] = Blog.objects.filter(deleted = True).count()
+    print(context["drafts"])
     return render(request, "blog/blog_list.html", context)
 
 
@@ -256,9 +223,11 @@ def blog_by_category(request, slug = None):
     return render(request, "blog/blog_list.html", context)
 
 
+
 def blog_for_deletion(request):
     blogs = Blog.objects.filter(deleted = True)
     return render(request, "blog/blog_list.html", {"blogs":blogs, "num_del":len(blogs)})
+
 
 
 def blog_delete(request, slug):

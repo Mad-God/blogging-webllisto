@@ -129,6 +129,8 @@ class Blog(models.Model):
 
     deleted = models.BooleanField(default = False)
 
+    published = models.BooleanField(default = False)
+
     slug = models.SlugField(unique=True)
 
 
@@ -154,7 +156,6 @@ class Blog(models.Model):
 
 
 def post_blog_created_signal(sender, instance, created, **kwargs):
-    breakpoint()
     print(instance, created)
     if created:
         instance.edited = None
