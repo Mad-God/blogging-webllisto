@@ -121,4 +121,34 @@ todo:
 ------------ 17th may ---------------
 
     url plugin to the tinymce editor
+
+
+
+
+--------------- 19th May ----------
+
+    add "can view blog" perm to reader group
+
+    add custom permission "can add new blog" blog model
+
+    add "view_blog" to blog_list and blog_create view required permissions,
+    add "can add new blog" to blog_create view required permissions,
+
+
+    
+    OBJECT LEVEL PERMISSIONS
+
+    add custom admin interface to blog in admin.py subclassing GuardedModelAdmin
+    
+    add some permissions to a certain user 
+    
+    in the views.py blog_list(), for the queryset, use get_objects_for_user(user, permission, model) method to get the queryset, instead of the objects.all() methods
+        now, you have restricted the blog_list() page to display only those blogs to users for which they have certain permissions. These permissions are defined on the individual blog level.
+
+
+    add "blog.change_blog" permission required to update_blog view, and add the change_blog permission to author user at an object level.
+
+
+------------
+
     

@@ -5,7 +5,17 @@ from django.shortcuts import redirect, reverse
 from .forms import BlogCreationForm, CategoryCreationForm
 from .models import Blog, Category
 from .decorators import custom_login_required, allowed_users, group_required
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
+from guardian.shortcuts import get_objects_for_user
+from .permissions import (IsBlogAuthor, 
+            SameUserOnlyMixin,
+            is_author_decorator,
+            CheckAuthorMixin
+)
+from django.views.generic import UpdateView 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 
@@ -13,7 +23,8 @@ from django.contrib.auth.decorators import permission_required
 # @custom_login_required
 # @allowed_users(allowed_users = ['author'])
 # @permission_required('blog.add_blog')
-@group_required('author')
+# @group_required('author')
+@permission_required({("blog.view_blog"), ("blog.can_add_new_blog")})
 def blog_create(request):
     msg = ''
     # if not request.user.verified:
@@ -53,14 +64,36 @@ def blog_create(request):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# @login_required
+# @permission_required("blog.change_blog")
+@is_author_decorator
 def blog_update(request, slug):
 
     blog = Blog.objects.get(slug = slug)
-    
+    # blogs = get_objects_for_user(request.user, 'blog.can_change_blog', klass = Blog)
+    # print(blogs)
+    # print(blogs[0])
+    # blog = blogs.get(slug=slug)
+    print(blog)
     form = BlogCreationForm(instance = blog)
     msg = ''
-    if request.user != blog.author:
-        return redirect("blog:list")
+
+    # if request.user != blog.author:
+    #     return redirect("blog:list")
     
     # form = BlogCreationForm
     if request.method == 'POST':
@@ -80,11 +113,98 @@ def blog_update(request, slug):
     return render(request, "blog/blog_create.html", context)
 
 
+
+
+
+
+
+
+
+
+class BlogUpdateView(CheckAuthorMixin, UpdateView):
+    template_name = 'blog/blog_create.html'
+    form_class = BlogCreationForm
+    # permission_required = "blog.add_blog"
+    # permission_required = (SameUserOnlyMixin,)
+    # permission_classes = [IsBlogAuthor]
+
+
+    def get_success_url(self):
+        print(self.object.product.shop)
+        print("asdsadasd")
+
+        return reverse('blog:list')     
+
+
+
+    # @method_decorator(IsBlogAuthor)
+    def get_queryset(self):
+        queryset = Blog.objects.all()
+        print(queryset)
+        return queryset
+        
+    def get_context_data(self, **kwargs):
+        # prod_id = self.kwargs['pk']
+        
+        # prod = Item.objects.get(id = prod_id)
+
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'item':"hue hie hieiashsdknakksdn",
+            # "prod":prod.product,
+        })
+        return context
+
+
+    def form_valid(self, form):
+        prod = form.save(commit=False)
+        
+        prod.save()
+        return super(BlogUpdateView, self).form_valid(form)
+
+    # def get_form_kwargs(self):
+    #     # self.kwargs
+    #     # breakpoint()
+    #     it_id = self.kwargs["pk"]
+    #     itm = Item.objects.get(id = it_id)
+    #     prod = itm.product
+    #     kws = super().get_form_kwargs()
+    #     kws.update(prod = prod)
+    #     return kws
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@login_required
+@permission_required("blog.view_blog")
 def blog_detail(request, slug):
     blog = Blog.objects.get(slug=slug)
     return render(request, "blog/blog_detail.html", {"blog":blog})
 
 
+
+@login_required
+@permission_required("blog.view_blog")
 def blog_list(request):
 
     
@@ -103,6 +223,7 @@ def blog_list(request):
 
 
     blogs = Blog.objects.all()
+    # blogs = get_objects_for_user(request.user, 'blog.view_blog', klass = Blog)
     print(blogs)
     context = {"blogs":blogs}
     context["categories"] = Category.objects.all()
@@ -147,7 +268,10 @@ def blog_delete(request, slug):
     return redirect("blog:list")
 
 
-# CATEGORY VIEWS
+
+
+
+#---------------- CATEGORY VIEWS ----------------
 
 
 def category_create(request):

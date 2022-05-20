@@ -87,11 +87,10 @@
 
 <div class="container jumbotron-container cardContainer" style="background-color:Red">
     {% for blog in blogs %}
+         <a href = "{% url 'blog:update' slug=blog.slug %}">
             {% if blog.author == request.user %}
-                <a href = "{% url 'blog:update' slug=blog.slug %}">
                 <div class="card" style="background-color:rgb(15, 229, 22); height:500px" >   
             {% else %}
-                <a href = "#">
                 <div class="card" style="background-color:rgb(153, 29, 224); height:500px">
             {% endif %}
          {% if blog.img %}

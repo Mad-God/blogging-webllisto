@@ -5,6 +5,7 @@ from datetime import datetime
 from django.core.mail import send_mail
 from tinymce.widgets import TinyMCE
 from django.shortcuts import reverse
+
 # from django.contrib.flatpages.models import FlatPage
 
 
@@ -22,6 +23,7 @@ class BlogCreationForm(forms.ModelForm):
     def save(self, commit=True, **kwargs):
         # breakpoint()
         m = super(BlogCreationForm, self).save()
+
         if "deleted" in self.changed_data and self.cleaned_data["deleted"]:
 
             # send mail

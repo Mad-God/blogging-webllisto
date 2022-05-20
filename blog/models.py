@@ -7,6 +7,7 @@ from django.db.models import Count, F, Value, Q
 from django.db.models.signals import post_save, pre_save, post_delete, pre_delete
 from django.utils.text import slugify   
 from user.models import User
+from guardian.shortcuts import assign_perm
 from tinymce.models import HTMLField
 
 
@@ -131,6 +132,10 @@ class Blog(models.Model):
     slug = models.SlugField(unique=True)
 
 
+    class Meta:
+        permissions = [("can_change_blog", "can change this blog")]
+
+
     def __str__(self):
         return self.title + ", by: " + str(self.author)
 
@@ -149,11 +154,22 @@ class Blog(models.Model):
 
 
 def post_blog_created_signal(sender, instance, created, **kwargs):
-    # breakpoint()
+    breakpoint()
     print(instance, created)
     if created:
         instance.edited = None
-        
+        assign_perm(
+            "blog.can_change_blog", 
+            instance.author,
+            instance
+        )
+        assign_perm(
+            "blog.change_blog", 
+            instance.author,
+            instance
+        )
+        print(instance.author)
+
 
  
 

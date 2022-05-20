@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_tailwind',
     'tinymce',
-
+    'guardian',
+    'rest_framework',
 
     # custom
     "user",
@@ -222,3 +223,12 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'stmsng2001@gmail.com'
 EMAIL_HOST_PASSWORD = 'jjqzetrykffczlhw'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+
+
+# CONFIGURATION FOR GUARDIAN
+AUTHENTICATION_BACKEND = (
+    'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
+)
