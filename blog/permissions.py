@@ -53,7 +53,7 @@ class SameUserOnlyMixin(object):
 class CheckAuthorMixin(LoginRequiredMixin, UserPassesTestMixin):
 
     def test_func(self):
-        return self.request == self.get_object().author
+        return self.request.user == self.get_object().author
 
     def handle_no_permission(self):
         return HttpResponse("You are not the author. I am CheckAuthorMixin")
