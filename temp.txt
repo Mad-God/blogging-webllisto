@@ -1,9 +1,6 @@
-multiple images, files in description,
 search functionality,
-blog deletion on category deletion, super author,
+blog deletion on category deletion,
 subscription plan on model, test cases using pytest,
-
-draft and publish field in blog.
 
 
 authentication, authorisation,
@@ -11,7 +8,6 @@ permission:
     edit, 
     model level permission,
     object level permission,
-
 
 
 
@@ -151,4 +147,3 @@ todo:
 
 ------------
 
-    

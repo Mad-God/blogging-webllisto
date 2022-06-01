@@ -108,9 +108,6 @@ def blog_update(request, slug):
 class BlogUpdateView(CheckAuthorMixin, UpdateView):
     template_name = 'blog/blog_create.html'
     form_class = BlogCreationForm
-    # permission_required = "blog.add_blog"
-    # permission_required = (SameUserOnlyMixin,)
-    # permission_classes = [IsBlogAuthor]
 
 
     def get_success_url(self):
@@ -118,13 +115,12 @@ class BlogUpdateView(CheckAuthorMixin, UpdateView):
         return reverse('blog:list')     
 
 
-
-    # @method_decorator(IsBlogAuthor)
     def get_queryset(self):
         queryset = Blog.objects.all()
         print(queryset)
         return queryset
-        
+
+
     def get_context_data(self, **kwargs):
         # prod_id = self.kwargs['pk']
         
@@ -144,15 +140,6 @@ class BlogUpdateView(CheckAuthorMixin, UpdateView):
         prod.save()
         return super(BlogUpdateView, self).form_valid(form)
 
-    # def get_form_kwargs(self):
-    #     # self.kwargs
-    #     # breakpoint()
-    #     it_id = self.kwargs["pk"]
-    #     itm = Item.objects.get(id = it_id)
-    #     prod = itm.product
-    #     kws = super().get_form_kwargs()
-    #     kws.update(prod = prod)
-    #     return kws
 
 
 

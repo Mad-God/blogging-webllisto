@@ -7,10 +7,9 @@ from guardian.admin import GuardedModelAdmin
 
 
 class CustomBlogAdmin(GuardedModelAdmin):
-    pass  
+    pass
     
 
 admin.site.register(Blog, CustomBlogAdmin)
 admin.site.register(Category)
 
- 

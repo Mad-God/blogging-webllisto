@@ -14,11 +14,10 @@ urlpatterns = [
     path('create', blog_create,name = 'create'),
     path('detail/<slug>', blog_detail,name = 'detail'),
     path('for-deletion', blog_for_deletion,name = 'to-delete-blog'),
-    # path('update/<slug>', blog_update,name = 'update'),
     path('update/<slug>', BlogUpdateView.as_view(),name = 'update'),
     path('delete-blog/<slug>', blog_delete,name = 'blog-delete'),
     
-    # catgory urls
+    # category urls
     path('category/<slug>', blog_by_category,name = 'category-blog'),
     path('create-category', category_create,name = 'create-category'),
     path('category-delte/<slug>', category_delete,name = 'category-delete'),

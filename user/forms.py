@@ -15,7 +15,6 @@ class CustomUserCreationForm(UserCreationForm):
         reader_group = Group.objects.get(name="reader")
         m.groups.add(reader_group)
         m.save()
-        # breakpoint()
         return m
 
 

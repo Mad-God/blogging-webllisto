@@ -1,10 +1,7 @@
-from datetime import datetime
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group
-from django.shortcuts import redirect, reverse
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db.models.signals import post_save, pre_save, post_delete, pre_delete
 from django.core.mail import send_mail
-from .managers import UserManager
 
 
 
@@ -33,10 +30,8 @@ class CustomUserManager(BaseUserManager):
 
 
     def create_user(self, email, name, password, **other_fields):
-        # since email is required
         if not email:
             raise ValueError('You must provide an email address')
-        print(self, email, name, password, other_fields)
 
         other_fields.setdefault('is_staff', False)
         other_fields.setdefault('is_superuser', False)
@@ -49,48 +44,6 @@ class CustomUserManager(BaseUserManager):
         user.set_password(password)
         user.save()
         return user
-
-
-
-
-# the old user model, meant to extend the Abstractuser, but then permissions
-# clash with new user model
-
-class User2(AbstractBaseUser):
-    
-    # email = models.EmailField('email address', unique=True)
-    # name = models.CharField(max_length=150)
-
-    # # because abstract user defines this field, and it is required by it. So, setting it as null here
-    # username = models.CharField(max_length=150, blank = True, null = True)
-    
-    # # first_name = models.CharField(max_length=150, blank=True)
-    # author = models.BooleanField(default = False)
-    # description = models.TextField(max_length=200, blank = True, null = True)
-    # verified = models.BooleanField(default = False)
-
-    # # the field which is used for logging in
-    # USERNAME_FIELD = 'email'
-
-    # # the fields that are required for creating superuser
-    # REQUIRED_FIELDS = ["name"]
-
-
-    # objects = CustomUserManager()
-
-    # def __str__(self):
-    #     return self.name
-    
-    
-    # def save(self, *args, **kwargs):
-    #     print("printing stuff from : def save(self, *args, **kwargs):")
-    #     print(self, args, kwargs)
-    #     # kwargs.update["username"] = "none"
-    #     super(User, self).save(*args, **kwargs) 
-    pass
-
-
-
 
 
 # new user model
@@ -107,8 +60,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     created = models.DateTimeField(auto_now_add= True)
     updated = models.DateTimeField(auto_now= True)
 
-# 'created': datetime.datetime(2022, 5, 5, 6, 14, 35, 706591, tzinfo=<UTC>), 'updated': datetime.datetime(2022, 5, 5, 
-# 6, 14, 35, 741586, tzinfo=<UTC>),
   
 
     objects = CustomUserManager()   
@@ -118,31 +69,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
 
-    def get_all_data(self):
-        return str(self.email) + " " +str(self.author) + " " +str(self.verified) + " " +str(self.updated)
-
-
-    # def save(self, **kwargs):
-    #     # breakpoint()
-    #     m = super(User, self).save()
-        
-        
 
 
 
 def post_user_created_signal(sender, instance, created, **kwargs):
-    # breakpoint()
-    print(instance, created)
+    
     if created:
         if instance.author:
-            print("mail was sent from the signal.")
-            # send_mail(
-            #     "verification for author user", # message title
-            #     f"please verify the user {instance.id} as author",# message
-            #     "stmsng2001@gmail.com",# message mail
-            #     ["stmsng2001@gmail.com"],# message recipients
-            # )
-            
             print("Notify the superuser")
             mail_result = send_mail(
             subject = 'Subject here verification for author user',

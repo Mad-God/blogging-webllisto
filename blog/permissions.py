@@ -6,14 +6,6 @@ from django.contrib.contenttypes.models import ContentType
 from .models import Blog
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 
-# content_type = ContentType.objects.get_for_model(Blog)
-# AuthorPermission = Permission.objects.create(
-#     codename='can_edit_blog',
-#     name='Can Edit Blog',
-#     content_type=content_type,
-# )
-
-
 
 def is_author_decorator(detail_view):
     def wrapper_func(request, slug, *args, **kwargs):
@@ -27,8 +19,7 @@ def is_author_decorator(detail_view):
   
 class IsBlogAuthor(permissions.BasePermission):
     
-    def has_object_permission(self, request, view, obj):            
-        breakpoint()
+    def has_object_permission(self, request, view, obj):
         return True
 
     def has_permission(self, request, view, obj):            
@@ -54,6 +45,7 @@ class CheckAuthorMixin(LoginRequiredMixin, UserPassesTestMixin):
 
     def test_func(self):
         return self.request.user == self.get_object().author
+
 
     def handle_no_permission(self):
         return HttpResponse("You are not the author. I am CheckAuthorMixin")
